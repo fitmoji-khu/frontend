@@ -8,21 +8,21 @@ const NAV_ITEMS = [
 ];
 
 function LogoMark() {
-return (
-  <div className="flex items-center gap-2">
-    <div className="h-12 w-12 rounded-full bg-white shadow-inner grid place-items-center">
-      <img
-      src="/Fitmoji.png"
-      alt=""
-      width="32"
-      height="32"
-      style={{ objectFit: 'contain' }}
-      loading="lazy"
-      />  
+  return (
+    <div className="flex items-center gap-2">
+      <div className="h-12 w-12 rounded-full bg-white shadow-inner grid place-items-center">
+        <img
+          src="/Fitmoji.png"
+          alt=""
+          width="32"
+          height="32"
+          style={{ objectFit: 'contain' }}
+          loading="lazy"
+        />
+      </div>
+      <span className="sr-only">Fitmoji</span>
     </div>
-    <span className="sr-only">Fitmoji</span>
-  </div>
-);
+  );
 }
 
 export default function AppLayout({ children, activePath = "/" }) {
@@ -42,7 +42,7 @@ export default function AppLayout({ children, activePath = "/" }) {
 
       <header className="sticky top-0 z-50 border-b border-sky-300/60 bg-sky-200/80 backdrop-blur supports-[backdrop-filter]:bg-sky-200/60">
         <div className="mx-auto max-w-6xl px-4">
-          <div className="flex h-20 items-center justify-between">
+          <div className="flex h-20 items-center justify-between relative">
             <div className="flex items-center gap-6">
               <a href="/" className="shrink-0" aria-label="Fitmoji 홈">
                 <LogoMark />
@@ -70,7 +70,10 @@ export default function AppLayout({ children, activePath = "/" }) {
               </nav>
             </div>
 
-            <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl font-extrabold text-sky-950\" style={{pointerEvents:'none'}}>
+            <h1
+              className="absolute left-1/2 -translate-x-1/2 text-3xl font-extrabold text-sky-950"
+              style={{ pointerEvents: "none" }}
+            >
               Fitmoji
             </h1>
 
@@ -137,11 +140,7 @@ export default function AppLayout({ children, activePath = "/" }) {
       </header>
 
       <main id="main" className="mx-auto max-w-6xl px-4 py-8">
-        {children ? (
-          children
-        ) : (
-          <div className="h-[60vh] rounded-2xl border border-dashed border-gray-300 bg-white" />
-        )}
+        {children}
       </main>
     </div>
   );
