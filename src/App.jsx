@@ -1,18 +1,19 @@
-import './App.css'
-import AppLayout from "./components/AppLayout.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import Community from "./components/Community";
+import PostDetail from "./components/PostDetail";
+import PostCreate from "./components/PostCreate";
 
-function App() {
-
+export default function App() {
   return (
-    <>
-    <AppLayout activePath="/">
-      <div style={{ padding: 16 }}>
-        <h2>Common UI</h2>
-        <p>여기는 Fitmoji 공통 레이아웃 안의 컨텐츠입니다.</p>
-      </div>
-    </AppLayout>
-    </>
-  )
+    <Router>
+      <AppLayout>
+        <Routes>
+          <Route path="/community" element={<Community />} />
+          <Route path="/community/new" element={<PostCreate />} />
+          <Route path="/community/:id" element={<PostDetail />} />
+        </Routes>
+      </AppLayout>
+    </Router>
+  );
 }
-
-export default App
