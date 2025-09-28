@@ -1,0 +1,151 @@
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 56px;
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  padding-top: 8px;
+  margin-bottom: 20px;
+}
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 14px 12px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+  cursor: pointer;
+}
+.active {
+  position: relative;
+}
+.active::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: -4px;
+  height: 3px;
+  background: #111;
+  border-radius: 2px;
+}
+
+.add {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateY(6px);
+
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: #f2f6ff;
+  color: #111;
+  font-size: 22px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.add:hover {
+  background: #e4eeff;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 24px;
+}
+.searchInput {
+  width: min(640px, 92%);
+  height: 44px;
+  border: 1px solid #e6e8ef;
+  border-radius: 999px;
+  padding: 0 42px 0 18px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+}
+.searchInput:focus {
+  border-color: #9fd0ff;
+  box-shadow: 0 0 0 3px #e7f3ff;
+}
+.searchIco {
+  position: relative;
+  margin-left: -36px;
+  align-self: center;
+  opacity: .5;
+  pointer-events: none;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #eceff3;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 4px;
+  border-bottom: 1px solid #eceff3;
+}
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  color: #666;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 520px;
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.heart {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #e1e1e1;
+  cursor: pointer;
+  line-height: 1;
+}
+.on {
+  color: #ea6464;
+}
+.date {
+  color: #8c95a5;
+  font-size: 14px;
+}

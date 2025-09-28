@@ -1,0 +1,98 @@
+.wrap{
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 12px 96px;
+}
+
+.backBtn {
+  position: absolute;
+  top: -8px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  place-items: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header{
+  position: relative;
+  display: grid;
+  grid-template-columns: 260px 1fr auto;
+  gap: 28px;
+  align-items: start;
+
+  padding: 40px 0 18px;
+  border-bottom: 1px solid #eceff3;
+}
+
+.thumbBox{ position: relative; }
+.thumb{
+  width: 220px; height: 220px;
+  border-radius: 16px;
+  background: #f0f0f0;
+  display: grid; place-items: center;
+  color: #111; font-size: 22px;
+}
+.heart{
+  position: absolute; right: 8px; bottom: 8px;
+  background: none; border: none;
+  color: #ea6464; font-size: 22px; cursor: pointer;
+}
+.date{
+  margin-top: 10px; text-align: center;
+  color: #8c95a5; font-size: 14px;
+}
+.meta{ display: grid; gap: 14px; padding-top: 10px; }
+.row{ display: flex; gap: 16px; color: #333; font-size: 18px; }
+.metaLabel{ color: #8c95a5; min-width: 56px; }
+
+.counters{
+  display: grid; gap: 8px; justify-items: end;
+  color: #111; font-weight: 600;
+}
+
+.comments{
+  list-style: none; padding: 0; margin: 16px 0 0;
+}
+.commentItem{
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eceff3;
+  align-items: center;
+}
+.commentAuthor{ color: #c0c3c9; }
+.commentText{ color: #b2b6bc; }
+.commentDate{ color: #c0c3c9; text-align: right; }
+
+.inputBar{
+  position: fixed; left: 50%; bottom: 24px;
+  transform: translateX(-50%);
+  width: min(760px, 92%);
+  display: grid; grid-template-columns: 1fr 60px;
+  background: #efeff0; border-radius: 22px;
+  padding: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.06);
+}
+.input{
+  border: none; outline: none;
+  padding: 10px 14px;
+  background: transparent;
+  font-size: 16px;
+}
+.send{
+  border: none; border-radius: 18px;
+  background: #dfdee2;
+  cursor: pointer; font-size: 18px;
+}

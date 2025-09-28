@@ -1,0 +1,148 @@
+.wrap {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 120px;
+}
+
+.backBtn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  place-items: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  margin-top: 64px;
+}
+
+.rowTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.title {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  padding: 12px 0;
+}
+
+.divider {
+  border: none;
+  border-top: 2px solid #dfe5ee;
+  margin: 8px 0 18px;
+}
+
+.rowBody {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+.body {
+  width: 100%;
+  min-height: 160px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-size: 18px;
+  color: #333;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+.body::placeholder {
+  color: #b8bdc6;
+}
+.addSide {
+  margin-left: 8px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  background: #eef3ff;
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.addSide:hover {
+  background: #e2ecff;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+.thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f2f3f6;
+  box-shadow: inset 0 0 0 1px #e6e9ee;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 8px;
+  background: #ffffffd9;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+.submit {
+  border: none;
+  border-radius: 20px;
+  padding: 12px 24px;
+  background: #9ad8ff;
+  color: #0b2b3b;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0,0,0,.08);
+}
+.submit:hover {
+  background: #86cffd;
+}
