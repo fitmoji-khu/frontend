@@ -32,7 +32,7 @@ const SLIDES_DATA = [
     id: 3,
     title: "오늘의 스타일, 직접 입혀보세요!",
     descriptions: [{ text: "옷장 속 아이템을 자유롭게 조합해보며\n나만의 코디를 완성해보세요!", color: "#EACDFF" }],
-    link: { text: "> 나의 옷장 바로가기", to: "/try-on", color: "#7BD5FF" },
+    link: { text: "> 나의 옷장 바로가기", to: "/closet", color: "#7BD5FF" },
   },
 ];
 
