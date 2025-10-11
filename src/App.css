@@ -120,13 +120,13 @@ main{
   padding-right:var(--page-gutter) !important;
 }
 
-main > div{
+/*main > div{
   width:100%;
   min-height:calc(100vh - 64px - 48px);
   border:0 !important;
   background:transparent !important;
   border-radius:0;
-}
+}*/
 
 header .px-4{
   padding-left:var(--page-gutter) !important;
@@ -138,3 +138,6 @@ header .px-4{
   margin-left:calc(50% - 50vw);
   margin-right:calc(50% - 50vw);
 }
+
+/* App.css에 한 줄 추가 */
+.z-1000 { z-index: 1000; }

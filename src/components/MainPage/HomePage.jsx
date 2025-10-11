@@ -18,7 +18,7 @@ const SLIDES_DATA = [
     descriptions: [
       { text: "AI 코디 추천 알고리즘은 옷을 인식하고, 색감과 날씨 정보를 종합하여 사용자에게 어울리는 스타일을 제안합니다.", color: "#BDFFD8" },
     ],
-    link: { text: "> 코디 추천 바로가기", to: "/recommend", color: "#7BD5FF" },
+    link: { text: "> 코디 추천 바로가기", to: "/coordi", color: "#7BD5FF" },
   },
   {
     id: 2,

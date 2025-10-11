@@ -1,0 +1,70 @@
+  
+
+.desc {
+    white-space: pre-line; 
+  }
+  
+
+  .centerWrap {
+    max-width: 490px; /*전체카드최대가로폭*/
+    margin: 0 auto;
+  }
+  
+  /* 안내 카드 */
+  .introCard {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-top: 4rem;
+    height: 400px;
+    padding: 36px 24px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 16px;
+  }
+  
+  .logo {
+    display: block;
+    width: 160px;
+    max-width: 70%;
+    margin: 8px auto 12px;
+  }
+  
+  .desc {
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 20px 0 16px;
+  }
+  
+  
+  .nextButton {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 9999px;
+    background: #7BD5FF; 
+    color: #1f2937;
+    font-weight: 700;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .nextButton:hover {
+    transform: translateY(-1px);
+  }
+  .nextButton:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  
+  

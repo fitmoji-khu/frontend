@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Closet.module.css';
 
-
 const DUMMY_CLOTHES = [
     { id: 1, category: '상의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MDhfMjMx%2FMDAxNjU5OTQxOTYzNzU0.MQ1nV4SlWaaB5bm9moxQs0c1J81MUmeMPw_hWdZzte8g.BZ4-lqcnAlLCotbiuZZ1wlT2LjA8MK8YDO_8BoMM3psg.PNG.hkh443%2Fimage.png&type=a340' },
     { id: 2, category: '상의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MTlfNDcg%2FMDAxNjYwOTIwODczNDE0.b0C6qu2V2UDVQvQhsU5YdNFnt98utmadl4vhFptx5WUg.S03FpAEtRyraG-eyVv-BaGStgi02zwkE4gTRH3usAYEg.PNG.some1it_%2Fimage.png&type=a340' },
@@ -14,21 +13,20 @@ const DUMMY_CLOTHES = [
     { id: 8, category: '상의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MTNfNzIg%2FMDAxNjYwMzIxMDA3NzQz.VEOTvTKV8XESAJV06Z0LXTocel44xTss5rImTi0w1KYg.UJFpGxChw7fvYpMRJ2237r8uFBc7FeWRemKSkVlHbLAg.PNG.some1it_%2Fimage.png&type=a340' },
     { id: 9, category: '상의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MTlfNTIg%2FMDAxNjYwOTIxMTIzMDI2.p1kpTptV5xd_Lt7R9ctvrY6caVq1up2UMr7z8ozYo7og.jGl03EkIb3GG0jHfigWVhrJLUol4wyz8hAiFflakR64g.PNG.some1it_%2Fimage.png&type=a340' },
     { id: 10, category: '상의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MDZfMjMx%2FMDAxNjU5Nzk2MzMzNDMz.cLMEYmPd5Uq0qur9Lq2JHLp0JwO-nWPmzxxwqFFaX94g.6vKm70Erz3hooKY-bRiVrQrclD_OsP9yp-ej_pJqWcwg.JPEG.serailac_1%2F1659796333260.jpg&type=a340' },
-  
     { id: 11, category: '하의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA5MTJfMjQx%2FMDAxNzU3NjQ2Nzk5NjU1.Fg1dSvrOcwNBbzcxf6o8ehuqjirSbvNe-BnybTGHiaQg.9N5Y38o-bgDAOsYgZDti21ApS_sDqKicY3igLvNSca0g.JPEG%2F900%25A3%25DF1757260174449.jpg&type=a340' },
     { id: 12, category: '하의', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA2MTZfMjI5%2FMDAxNzUwMDc1MTQ0Njg5.I0EgNxTClgM71DTQeE5IOVyffuP3oG7mr-cluxLbuQAg.UXVN2xpQq7P166ufxq3fNcgCZRdjg89AZed-cR32GB8g.JPEG%2FIMG%25A3%25DF8575.jpg&type=a340' },
-  
     { id: 13, category: '자켓', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220308_278%2F1646711065311pITiA_JPEG%2F185620_mainiamge4.jpg&type=a340' },
     { id: 14, category: '자켓', imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220304_190%2F1646385969677abz47_JPEG%2F184435_mainiamge4.jpg&type=a340' },
-  ];
+];
 
 const FILTERS = ['상의', '하의', '자켓', '기타'];
 const ITEMS_PER_PAGE = 8;
 
-export default function ClosetListPage() {
+export default function ClosetListPage({ selectionMode = false }) {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState(FILTERS[0]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedClothes, setSelectedClothes] = useState([]);
 
   const filteredClothes = useMemo(() => {
     return DUMMY_CLOTHES.filter(cloth => cloth.category === activeFilter);
@@ -45,26 +43,42 @@ export default function ClosetListPage() {
     setCurrentPage(0);
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 0));
-  };
-  
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
   const handleNavigateToAddCloth = () => navigate('/closet/add');
   const handleNavigateToTryOn = () => navigate('/try-on');
+
+  const handleSelectCloth = (clothId) => {
+    setSelectedClothes(prevSelected => {
+      if (prevSelected.includes(clothId)) {
+        return prevSelected.filter(id => id !== clothId);
+      } else {
+        return [...prevSelected, clothId];
+      }
+    });
+  };
+
+  const handleSelectionComplete = () => {
+    if (selectedClothes.length === 0) {
+      alert('옷을 하나 이상 선택해주세요.');
+      return;
+    }
+    console.log('선택된 옷 ID:', selectedClothes);
+    alert(`선택된 옷 ID: ${selectedClothes.join(', ')}`);
+  };
 
   return (
     <div className={styles.pageContainer}>
       <nav className={styles.tabsContainer}>
         <button className={`${styles.tab} ${styles.activeTab}`}>
-          나의 옷장 목록
+          {selectionMode ? '코디할 옷 선택' : '나의 옷장 목록'}
         </button>
-        <button className={styles.tab} onClick={handleNavigateToTryOn}>
-          옷 입혀보기
-        </button>
+        {/* '선택 모드'가 아닐 때만 '옷 입혀보기' 탭을 보여줌 */}
+        {!selectionMode && (
+          <button className={styles.tab} onClick={handleNavigateToTryOn}>
+            옷 입혀보기
+          </button>
+        )}
       </nav>
 
       <div className={styles.controlsContainer}>
@@ -79,9 +93,12 @@ export default function ClosetListPage() {
             </button>
           ))}
         </div>
-        <button className={styles.addButton} onClick={handleNavigateToAddCloth}>
-          + 추가하기
-        </button>
+        {/* '+ 추가하기' 버튼은 '선택 모드'가 아닐 때만 보여줌 */}
+        {!selectionMode && (
+          <button className={styles.addButton} onClick={handleNavigateToAddCloth}>
+            + 추가하기
+          </button>
+        )}
       </div>
 
       <div className={styles.clothGridContainer}>
@@ -101,6 +118,18 @@ export default function ClosetListPage() {
               {paginatedClothes.map((cloth) => (
                 <div key={cloth.id} className={styles.clothItem}>
                   <img src={cloth.imageUrl} alt={`clothing item ${cloth.id}`} />
+                  
+                  {/* '선택 모드'일 때만 선택 버튼을 보여줌 */}
+                  {selectionMode && (
+                    <div className={styles.selectButtonContainer}>
+                      <button
+                        className={`${styles.selectButton} ${selectedClothes.includes(cloth.id) ? styles.activeSelectButton : ''}`}
+                        onClick={() => handleSelectCloth(cloth.id)}
+                      >
+                        {selectedClothes.includes(cloth.id) ? '선택됨' : '선택'}
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -113,6 +142,13 @@ export default function ClosetListPage() {
           </>
         )}
       </div>
+
+      {/* '선택 모드'일 때만 선택 완료 버튼을 보여줌 */}
+      {selectionMode && (
+        <button className={styles.selectionCompleteButton} onClick={handleSelectionComplete}>
+          선택 완료 ({selectedClothes.length}개)
+        </button>
+      )}
     </div>
   );
 }

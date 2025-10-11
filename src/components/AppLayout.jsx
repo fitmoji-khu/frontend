@@ -3,7 +3,7 @@ import "../App.css";
 
 
 const NAV_ITEMS = [
-  { href: "/recommend", label: "코디 추천" },
+  { href: "/coordi", label: "코디 추천" },
   { href: "/community", label: "커뮤니티" },
   { href: "/try-on", label: "옷 입혀보기" },
   { href: "/support", label: "고객센터" },
