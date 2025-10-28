@@ -104,8 +104,13 @@
     overflow: hidden;
     height: 200px;
     border: 1px solid #e5e7eb;
+    /*margin-bottom: 3rem;*/
   }
   
+.clothItemWrapper {
+  position: relative;
+}
+
   .clothItem img {
     width: 100%;
     height: 100%;
@@ -262,7 +267,8 @@
 .gridNavigationArrow:focus,
 .backArrow:focus,
 .nextButton:focus,
-.cardAddButton:focus {
+.cardAddButton:focus,
+.selectButton:focus {
   outline: none;
   box-shadow: none;
 }
@@ -378,14 +384,6 @@
     color: #6b7280;
   }
   
-  .errorBox {
-    background: #fff7f7;
-    border: 1px solid #fecaca;
-    color: #b91c1c;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    text-align: center;
-  }
 
   .imageBox {
     flex: 1;
@@ -416,51 +414,36 @@
 
 
 /* --- 옷 선택 버튼 스타일 --- */
+/* Closet.module.css */
+
+/* --- 옷 선택 버튼 스타일 (수정) --- */
 .selectButtonContainer {
-  padding: 0.5rem;
-  background-color: #f9fafb; /* 버튼 영역 배경색 */
-  border-top: 1px solid #f3f4f6;
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  display: block;
+  z-index: 10;
 }
 
 .selectButton {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid #d1d5db;
+  /* ★ 수정: 알약 버튼 스타일 적용 */
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid #cacaca;
   background-color: white;
-  color: #374151;
+  color: #1f2937;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .activeSelectButton {
-  background-color: #374151;
-  color: white;
-  border-color: #374151;
+  /* ★ 수정: 선택 시 회색 배경으로 변경 */
+  background-color: #e5e7eb; /* 연한 회색 */
+  color: #1f2937;
+  border-color: #d1d5db;
+  outline: none;
 }
-
-/* --- 선택 완료 버튼 스타일 --- */
-.selectionCompleteButton {
-  position: fixed; /* 화면에 고정 */
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%); /* 중앙 정렬 */
-  
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  border: none;
-  background-color: #3b82f6; /* 파란색 계열 */
-  color: white;
-  font-size: 1.125rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  z-index: 100; /* 다른 요소들 위에 보이도록 */
-  transition: all 0.2s;
-}
-
-.selectionCompleteButton:hover {
-  background-color: #2563eb;
-}
-  

@@ -7,10 +7,7 @@ import HomePage from "./components/MainPage/HomePage";
 import ClosetListPage from "./components/Closet/ClosetListPage";
 import AddClothPage from "./components/Closet/AddClothPage";
 import AnalysisResultPage from "./components/Closet/AnalysisResultPage";
-import TryOnPage from "./components/Closet/TryOnPage"
 import CoordiEntryPage from "./components/Coordi/CoordiEntryPage";
-import CoordiSelectPage from "./components/Coordi/CoordiSelectPage";
-import CoordiAreaPage from "./components/Coordi/CoordiAreaPage";
 import CoordiResultPage from "./components/Coordi/CoordiResultPage";
 import { CoordiProvider } from "./components/Coordi/coordiStore.js"; // 전역 상태 Provider
 
@@ -29,11 +26,9 @@ export default function App() {
             <Route path="/closet" element={<ClosetListPage />} />
             <Route path="/closet/add" element={<AddClothPage />} />
             <Route path="/closet/result" element={<AnalysisResultPage />} />
-            <Route path="/try-on" element={<TryOnPage />} />
             <Route path="/coordi/select" element={<ClosetListPage selectionMode={true} />} />
 
             <Route path="/coordi" element={<CoordiEntryPage />} />
-            <Route path="/coordi/area" element={<CoordiAreaPage />} />
             <Route path="/coordi/result" element={<CoordiResultPage />} />
           </Routes>
         </AppLayout>

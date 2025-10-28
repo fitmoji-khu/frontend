@@ -26,7 +26,7 @@ export default function ClosetListPage({ selectionMode = false }) {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState(FILTERS[0]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedClothes, setSelectedClothes] = useState([]);
+  const [selectedClothes, setSelectedClothes] = useState({});
 
   const filteredClothes = useMemo(() => {
     return DUMMY_CLOTHES.filter(cloth => cloth.category === activeFilter);
@@ -46,24 +46,30 @@ export default function ClosetListPage({ selectionMode = false }) {
   const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
   const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
   const handleNavigateToAddCloth = () => navigate('/closet/add');
-  const handleNavigateToTryOn = () => navigate('/try-on');
 
-  const handleSelectCloth = (clothId) => {
+  const handleSelectCloth = (clothId, category) => {
     setSelectedClothes(prevSelected => {
-      if (prevSelected.includes(clothId)) {
-        return prevSelected.filter(id => id !== clothId);
+      const currentSelectionForCategory = prevSelected[category];
+      if (currentSelectionForCategory === clothId) {
+        const newState = {...prevSelected};
+        delete newState[category];
+        return newState;
       } else {
-        return [...prevSelected, clothId];
+        return {
+          ...prevSelected,
+          [category]: clothId
+        };
       }
     });
   };
 
   const handleSelectionComplete = () => {
-    if (selectedClothes.length === 0) {
+    if (Object.keys(selectedClothes).length === 0) {
       alert('옷을 하나 이상 선택해주세요.');
       return;
     }
-    console.log('선택된 옷 ID:', selectedClothes);
+    const selectedIds = Object.values(selectedClothes);
+    console.log('선택된 옷 (카테고리별):', selectedClothes);
     alert(`선택된 옷 ID: ${selectedClothes.join(', ')}`);
   };
 
@@ -73,12 +79,6 @@ export default function ClosetListPage({ selectionMode = false }) {
         <button className={`${styles.tab} ${styles.activeTab}`}>
           {selectionMode ? '코디할 옷 선택' : '나의 옷장 목록'}
         </button>
-        {/* '선택 모드'가 아닐 때만 '옷 입혀보기' 탭을 보여줌 */}
-        {!selectionMode && (
-          <button className={styles.tab} onClick={handleNavigateToTryOn}>
-            옷 입혀보기
-          </button>
-        )}
       </nav>
 
       <div className={styles.controlsContainer}>
@@ -116,17 +116,19 @@ export default function ClosetListPage({ selectionMode = false }) {
             
             <div className={styles.clothGrid}>
               {paginatedClothes.map((cloth) => (
-                <div key={cloth.id} className={styles.clothItem}>
-                  <img src={cloth.imageUrl} alt={`clothing item ${cloth.id}`} />
+                <div key={cloth.id} className={styles.clothItemWrapper}>
+                  <div className={styles.clothItem}>
+                     <img src={cloth.imageUrl} alt={`clothing item ${cloth.id}`} />
+                  </div>
                   
                   {/* '선택 모드'일 때만 선택 버튼을 보여줌 */}
                   {selectionMode && (
                     <div className={styles.selectButtonContainer}>
                       <button
-                        className={`${styles.selectButton} ${selectedClothes.includes(cloth.id) ? styles.activeSelectButton : ''}`}
-                        onClick={() => handleSelectCloth(cloth.id)}
+                        className={`${styles.selectButton} ${selectedClothes[cloth.category] === cloth.id ? styles.activeSelectButton : ''}`}
+                        onClick={() => handleSelectCloth(cloth.id, cloth.category)}
                       >
-                        {selectedClothes.includes(cloth.id) ? '선택됨' : '선택'}
+                        {selectedClothes[cloth.category] === cloth.id ? '선택' : '선택'}
                       </button>
                     </div>
                   )}
@@ -143,10 +145,17 @@ export default function ClosetListPage({ selectionMode = false }) {
         )}
       </div>
 
-      {/* '선택 모드'일 때만 선택 완료 버튼을 보여줌 */}
+
+
+
+      {/* '선택 모드'일 때만 '다음' 버튼을 보여줌 */}
       {selectionMode && (
-        <button className={styles.selectionCompleteButton} onClick={handleSelectionComplete}>
-          선택 완료 ({selectedClothes.length}개)
+        <button 
+          className={styles.nextButton} // 'selectionCompleteButton' -> 'nextButton' 스타일로 변경
+          onClick={handleSelectionComplete}
+          disabled={Object.keys(selectedClothes).length === 0} // 선택된 옷이 없으면 비활성화
+        >
+          다음
         </button>
       )}
     </div>

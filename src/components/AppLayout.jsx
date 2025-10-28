@@ -5,7 +5,7 @@ import "../App.css";
 const NAV_ITEMS = [
   { href: "/coordi", label: "코디 추천" },
   { href: "/community", label: "커뮤니티" },
-  { href: "/try-on", label: "옷 입혀보기" },
+  { href: "/closet", label: "나의 옷장" },
   { href: "/support", label: "고객센터" },
 ];
 
@@ -29,6 +29,7 @@ function LogoMark() {
 
 export default function AppLayout({ children, activePath = "/" }) {
   const [open, setOpen] = useState(false);
+  /* 로그인? const [isLoggedIn, setIsLoggedIn] = useState(false); */
 
   const isActive = (href) =>
     activePath === href || activePath.startsWith(href + "/");
