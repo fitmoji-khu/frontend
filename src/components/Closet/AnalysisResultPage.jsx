@@ -18,15 +18,15 @@ async function mockRegisterAPI(payload) {
 }
 /* !! 밑에 종류 회의로 수정해야함 */
 
-const TOP_OPTIONS = ["상의", "하의", "자켓", "기타"];
+const TOP_OPTIONS = ["상의", "하의", "아우터", "기타"];
 const SUB_OPTIONS = {
-  상의: ["티셔츠", "셔츠/블라우스", "니트/스웨터", "후디/맨투맨", "민소매", "기타"],
-  하의: ["데님", "슬랙스", "스커트", "트레이닝", "반바지", "기타"],
-  자켓: ["코트", "가디건", "패딩", "베스트", "기타"],
-  기타: ["기타"],
+  상의: ["긴팔 원피스", "긴팔 상의", "반팔 원피스", "반팔 상의", "슬링 드레스", "베스트 드레스"],
+  하의: ["반바지", "치마", "긴바지" ],
+  아우터: ["긴팔 아우터", "반팔 아우터", "조끼"],
+  기타: ["가방"],
 };
 const COLOR_PRESETS = ["하얀색", "검정", "베이지", "회색", "남색", "파랑", "초록", "노랑", "빨강", "갈색", "분홍"];
-
+//색상표 수정.
 export default function AnalysisResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
