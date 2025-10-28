@@ -37,7 +37,8 @@ export default function Signup() {
   const next = () => setStep((n) => Math.min(4, n + 1));
   const prev = () => setStep((n) => Math.max(0, n - 1));
 
-  const onInput = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+  const onInput = (key) => (e) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const fileRef = useRef(null);
   const openFile = () => fileRef.current?.click();
@@ -49,14 +50,48 @@ export default function Signup() {
   const HEIGHTS = Array.from({ length: 71 }, (_, i) => 140 + i);
   const WEIGHTS = Array.from({ length: 101 }, (_, i) => 40 + i);
 
-  const finalize = () => {
-    alert(
-      `회원가입 완료!\n\n${JSON.stringify(
-        { ...form, avatar: form.avatar ? form.avatar.name : null },
-        null,
-        2
-      )}`
-    );
+  const finalize = async () => {
+    // 서버로 보낼 데이터 구조
+    const payload = {
+      email: form.email,
+      password: form.password,
+      name: form.nickname,
+      personalColor:
+        form.personalColor === "spring"
+          ? "봄웜"
+          : form.personalColor === "summer"
+          ? "여름쿨"
+          : form.personalColor === "autumn"
+          ? "가을웜"
+          : form.personalColor === "winter"
+          ? "겨울쿨"
+          : "선택안함",
+      style: form.styles[0] || "캐주얼",
+      height: Number(form.height) || null,
+      weight: Number(form.weight) || null,
+      gender: form.gender || "선택안함",
+      birthAt: "2000-01-01", // 임시 기본값
+    };
+
+    try {
+      const res = await fetch("http://localhost:8083/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert(`회원가입 실패: ${err.message || res.status}`);
+        return;
+      }
+
+      const data = await res.json();
+      alert(`회원가입을 완료했습니다!\n${JSON.stringify(data, null, 2)}`);
+    } catch (e) {
+      console.error(e);
+      alert("서버 요청 중 오류가 발생했습니다.");
+    }
   };
 
   const handleSubmit = (e) => {
@@ -72,6 +107,7 @@ export default function Signup() {
     <AppLayout activePath="/signup" titleOnly>
       <div className={s.wrap}>
         <form className={s.card} onSubmit={handleSubmit}>
+          {/* 단계 0 - 이메일/비밀번호 */}
           {step === 0 && (
             <>
               <h2 className={s.title}>이메일과 비밀번호를 입력해주세요</h2>
@@ -112,6 +148,7 @@ export default function Signup() {
             </>
           )}
 
+          {/* 단계 1 - 프로필 이미지 */}
           {step === 1 && (
             <>
               <h2 className={s.title}>당신의 정보를 입력해주세요</h2>
@@ -135,7 +172,11 @@ export default function Signup() {
                   style={{ display: "none" }}
                   onChange={onPick}
                 />
-                <button className={s.uploader} type="button" onClick={openFile}>
+                <button
+                  className={s.uploader}
+                  type="button"
+                  onClick={openFile}
+                >
                   프로필 이미지 선택(선택)
                 </button>
                 <p className={s.help}>
@@ -145,6 +186,7 @@ export default function Signup() {
             </>
           )}
 
+          {/* 단계 2 - 퍼스널 컬러 */}
           {step === 2 && (
             <>
               <div className={s.skipRow}>
@@ -153,7 +195,9 @@ export default function Signup() {
                 </button>
               </div>
 
-              <h2 className={`${s.title} ${s.titleCenter}`}>당신의 퍼스널 컬러는?</h2>
+              <h2 className={`${s.title} ${s.titleCenter}`}>
+                당신의 퍼스널 컬러는?
+              </h2>
 
               <div className={s.pcList} role="group" aria-label="퍼스널 컬러">
                 {[
@@ -193,12 +237,16 @@ export default function Signup() {
                     <button
                       type="button"
                       key={opt.key}
-                      className={`${s.pcRow} ${selected ? s.pcSelected : ""}`}
+                      className={`${s.pcRow} ${
+                        selected ? s.pcSelected : ""
+                      }`}
                       onClick={() =>
                         setForm((f) => ({ ...f, personalColor: opt.key }))
                       }
                     >
-                      <span className={`${s.pcPill} ${opt.cls}`}>{opt.label}</span>
+                      <span className={`${s.pcPill} ${opt.cls}`}>
+                        {opt.label}
+                      </span>
                       <span className={s.pcDesc}>{opt.desc}</span>
                     </button>
                   );
@@ -207,6 +255,7 @@ export default function Signup() {
             </>
           )}
 
+          {/* 단계 3 - 선호 스타일 */}
           {step === 3 && (
             <>
               <div className={s.skipRow}>
@@ -215,7 +264,9 @@ export default function Signup() {
                 </button>
               </div>
 
-              <h2 className={`${s.title} ${s.titleCenter}`}>당신의 선호 추구미는?</h2>
+              <h2 className={`${s.title} ${s.titleCenter}`}>
+                당신의 선호 추구미는?
+              </h2>
 
               <div className={s.prefList} role="group" aria-label="선호 추구미">
                 {[
@@ -230,7 +281,9 @@ export default function Signup() {
                     <button
                       type="button"
                       key={opt.label}
-                      className={`${s.prefRow} ${selected ? s.prefSelected : ""}`}
+                      className={`${s.prefRow} ${
+                        selected ? s.prefSelected : ""
+                      }`}
                       onClick={() =>
                         setForm((f) => ({
                           ...f,
@@ -249,6 +302,7 @@ export default function Signup() {
             </>
           )}
 
+          {/* 단계 4 - 기본 정보 */}
           {step === 4 && (
             <>
               <div className={s.skipRow}>
@@ -257,7 +311,9 @@ export default function Signup() {
                 </button>
               </div>
 
-              <h2 className={`${s.title} ${s.titleCenter}`}>당신의 기본 정보는?</h2>
+              <h2 className={`${s.title} ${s.titleCenter}`}>
+                당신의 기본 정보는?
+              </h2>
 
               <div className={s.field2col}>
                 <div>
@@ -305,7 +361,9 @@ export default function Signup() {
                   <button
                     type="button"
                     key={g}
-                    className={`${s.pillBtn} ${form.gender === g ? s.pillOn : ""}`}
+                    className={`${s.pillBtn} ${
+                      form.gender === g ? s.pillOn : ""
+                    }`}
                     onClick={() => setForm((f) => ({ ...f, gender: g }))}
                   >
                     {g}
@@ -321,7 +379,9 @@ export default function Signup() {
                   <button
                     type="button"
                     key={a}
-                    className={`${s.pillBtn} ${form.ageBand === a ? s.pillOn : ""}`}
+                    className={`${s.pillBtn} ${
+                      form.ageBand === a ? s.pillOn : ""
+                    }`}
                     onClick={() => setForm((f) => ({ ...f, ageBand: a }))}
                   >
                     {a}
@@ -331,6 +391,7 @@ export default function Signup() {
             </>
           )}
 
+          {/* 단계 이동 버튼 */}
           <div className={s.cardFooter}>
             <div
               className={s.stepper}
@@ -341,7 +402,9 @@ export default function Signup() {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`${s.stepDot} ${i <= step ? s.stepDotOn : ""}`}
+                    className={`${s.stepDot} ${
+                      i <= step ? s.stepDotOn : ""
+                    }`}
                   />
                 ))}
               </div>

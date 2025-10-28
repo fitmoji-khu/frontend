@@ -71,10 +71,10 @@ export default function AppLayout({ children, activePath = "/" }) {
             </h1>
 
             <a
-              href="/mypage"
+              href="/signup"
               className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
             >
-              마이페이지
+              회원가입
             </a>
           </div>
         </div>
