@@ -1,69 +1,77 @@
-:root { —card-w: 420px; }
-
 .wrap {
   display: grid;
   place-items: center;
-  min-height: calc(100vh - 72px);
-  padding: 24px 12px;
-  background: #f8fafc;
+  padding: 40px 16px;
 }
 
 .card {
-  width: min(var(—card-w), 92vw);
-  background: #ffffff;
+  width: min(640px, 92vw);
+  background: #fff;
   border: 1px solid rgba(0,0,0,.08);
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.06);
-  padding: 28px 32px;
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
 }
 
 .label {
   display: block;
-  font-size: 15px;
-  color: #0f172a;
-  margin: 10px 0 6px;
+  font-size: 16px;
+  color: #334155;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
-.inputLine {
+.input {
   width: 100%;
   border: none;
-  border-bottom: 2px solid #cbd5e1;
-  background: transparent;
-  height: 40px;
   outline: none;
-  font-size: 16px;
-  color: #0f172a;
+  font-size: 18px;
+  padding: 8px 0;
+  background: transparent;
 }
-.inputLine:focus {
-  border-bottom-color: #60a5fa;
-  box-shadow: 0 2px 0 0 #60a5fa;
+
+.underline {
+  height: 2px;
+  background: #e2e8f0;
+  margin-bottom: 18px;
 }
 
 .primaryBtn {
   width: 100%;
-  height: 48px;
-  margin-top: 16px;
+  height: 56px;
   border: none;
   border-radius: 12px;
-  background: #bee3f8;
-  color: #0c4a6e;
-  font-weight: 700;
-  font-size: 16px;
+  background: #cfefff;  /* 연한 하늘색 */
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 18px;
   cursor: pointer;
-  transition: transform .02s ease, filter .15s ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
 }
-.primaryBtn:hover { filter: brightness(0.98); }
-.primaryBtn:active { transform: translateY(1px); }
+.primaryBtn:disabled { opacity: .6; cursor: not-allowed; }
 
-.hr {
-  border: 0;
-  border-top: 2px solid #e2e8f0;
-  margin: 18px 0 8px;
+.divider {
+  height: 2px;
+  background: #e2e8f0;
+  margin: 20px 0;
 }
 
-.helper {
-  margin: 10px 0 6px;
+.help {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: #475569;
+  margin: 8px 0 10px;
+}
+
+.secondaryBtn {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 12px;
+  background: #cfefff;  /* 동일 톤으로 크게 */
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
 }
