@@ -1,0 +1,91 @@
+MyPage.module.css
+
+.wrap {
+  padding: 24px 8px;
+}
+
+.card {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.08);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+}
+
+.left {
+  display: grid;
+  place-items: center;
+}
+
+.avatarCircle {
+  width: 260px;
+  height: 260px;
+  border-radius: 9999px;
+  background: #e6f2ff;
+  border: 1px solid #cfe7ff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.avatarCircle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatarFallback {
+  display: grid;
+  place-items: center;
+  color: #0b3b60;
+  font-weight: 800;
+  gap: 6px;
+  font-size: 20px;
+}
+
+.right {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: end;
+  gap: 18px;
+}
+
+.label {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.value {
+  color: #0f172a;
+  border-bottom: 2px solid #94a3b8;
+  padding-bottom: 8px;
+}
+
+.divider {
+  height: 2px;
+  background: transparent;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  color: #1f2937;
+  font-weight: 700;
+  cursor: pointer;
+}

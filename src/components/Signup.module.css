@@ -1,6 +1,10 @@
+:root { --header-h: 72px; }
+
 .wrap {
   display: grid;
-  place-items: start center;
+  place-items: center;
+  min-height: calc(100vh - var(--header-h));
+  padding: 24px 0;
   gap: 16px;
 }
 
@@ -251,4 +255,20 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+}
+
+
+:global(html, body, #root) {
+  height: 100%;
+  margin: 0;
+}
+
+:global(#root) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+:global(body) {
+  background: #f8fafc;
 }

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../App.css";
-
 
 const NAV_ITEMS = [
   { href: "/coordi", label: "코디 추천" },
@@ -27,60 +27,96 @@ function LogoMark() {
   );
 }
 
-export default function AppLayout({ children, activePath = "/" }) {
-  const [open, setOpen] = useState(false);
-  /* 로그인? const [isLoggedIn, setIsLoggedIn] = useState(false); */
+const readAuth = () => {
+  try {
+    const raw = localStorage.getItem("authUser");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
+
+export default function AppLayout({ children, activePath = "/", hideHeader = false }) {
+  const location = useLocation();
+  const [authUser, setAuthUser] = useState(readAuth());
+
+  useEffect(() => {
+    setAuthUser(readAuth());
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const sync = () => setAuthUser(readAuth());
+    const onStorage = (e) => {
+      if (!e.key || e.key === "authUser") sync();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("auth-changed", sync);
+    window.addEventListener("pageshow", sync);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("auth-changed", sync);
+      window.removeEventListener("pageshow", sync);
+    };
+  }, []);
 
   const isActive = (href) =>
     activePath === href || activePath.startsWith(href + "/");
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 헤더 */}
-      <header className="sticky top-0 z-50 border-b border-sky-300/60 bg-sky-200/80 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="flex h-20 items-center justify-between relative">
-            {/* 로고 + 네비 */}
-            <div className="flex items-center gap-6">
-              <a href="/" className="shrink-0" aria-label="Fitmoji 홈">
-                <LogoMark />
-              </a>
-              <nav className="hidden md:block" aria-label="주요 메뉴">
-                <ul className="flex items-center gap-6">
-                  {NAV_ITEMS.map((item) => (
-                    <li key={item.href}>
-                      <a
-                        href={item.href}
-                        className={
-                          "text-sm tracking-tight text-sky-900/80 hover:text-sky-900 " +
-                          (isActive(item.href)
-                            ? "font-semibold underline underline-offset-4"
-                            : "")
-                        }
-                      >
-                        {item.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+      {!hideHeader && (
+        <header className="sticky top-0 z-50 border-b border-sky-300/60 bg-sky-200/80 backdrop-blur">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="flex h-20 items-center justify-between relative">
+              <div className="flex items-center gap-6">
+                <a href="/" className="shrink-0" aria-label="Fitmoji 홈">
+                  <LogoMark />
+                </a>
+                <nav className="hidden md:block" aria-label="주요 메뉴">
+                  <ul className="flex items-center gap-6">
+                    {NAV_ITEMS.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          className={
+                            "text-sm tracking-tight text-sky-900/80 hover:text-sky-900 " +
+                            (isActive(item.href)
+                              ? "font-semibold underline underline-offset-4"
+                              : "")
+                          }
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+
+              <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl font-extrabold text-sky-950">
+                Fitmoji
+              </h1>
+
+              {authUser ? (
+                <a
+                  href="/mypage"
+                  className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
+                >
+                  마이페이지
+                </a>
+              ) : (
+                <a
+                  href="/login"
+                  className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
+                >
+                  로그인
+                </a>
+              )}
             </div>
-
-            <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl font-extrabold text-sky-950">
-              Fitmoji
-            </h1>
-
-            <a
-              href="/signup"
-              className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
-            >
-              회원가입
-            </a>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
-      {/* 메인 */}
       <main id="main" className="mx-auto max-w-6xl px-4 py-8">
         {children}
       </main>
