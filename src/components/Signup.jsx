@@ -81,7 +81,7 @@ export default function Signup() {
 
       localStorage.setItem("authUser", JSON.stringify(authUser));
       window.dispatchEvent(new Event("auth-changed"));
-      nav("/mypage", { replace: true });
+      nav("/login", { replace: true });
     } catch (e) {
       console.error(e);
       alert("가입 중 문제가 발생했습니다. 다시 시도해주세요.");
