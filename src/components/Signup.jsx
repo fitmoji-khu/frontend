@@ -1,443 +1,128 @@
-import React, { useMemo, useRef, useState } from "react";
-import AppLayout from "../components/AppLayout";
-import s from "./Signup.module.css";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import "../App.css";
 
-const GENDERS = ["여성", "남성", "선택안함"];
-const AGE_BANDS = ["10대", "20대", "30대", "40대", "50대", "60대 이상"];
+const NAV_ITEMS = [
+  { href: "/coordi", label: "코디 추천" },
+  { href: "/community", label: "커뮤니티" },
+  { href: "/closet", label: "나의 옷장" },
+  { href: "/support", label: "고객센터" },
+];
 
-export default function Signup() {
-  const [step, setStep] = useState(0);
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    confirm: "",
-    nickname: "",
-    avatar: null,
-    personalColor: "",
-    styles: [],
-    height: "",
-    weight: "",
-    gender: "",
-    ageBand: "",
-  });
-
-  const avatarUrl = useMemo(
-    () => (form.avatar ? URL.createObjectURL(form.avatar) : null),
-    [form.avatar]
+function LogoMark() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="h-12 w-12 rounded-full bg-white shadow-inner grid place-items-center">
+        <img
+          src="/Fitmoji.png"
+          alt="Fitmoji 로고"
+          width="32"
+          height="32"
+          style={{ objectFit: "contain" }}
+          loading="lazy"
+        />
+      </div>
+      <span className="sr-only">Fitmoji</span>
+    </div>
   );
+}
 
-  const okStep0 =
-    form.email.includes("@") &&
-    form.password.length >= 6 &&
-    form.password === form.confirm &&
-    form.nickname.trim().length >= 1;
+const readAuth = () => {
+  try {
+    const raw = localStorage.getItem("authUser");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
-  const okStep4 = true;
+export default function AppLayout({ children, activePath = "/", hideHeader = false }) {
+  const location = useLocation();
+  const [authUser, setAuthUser] = useState(readAuth());
 
-  const next = () => setStep((n) => Math.min(4, n + 1));
-  const prev = () => setStep((n) => Math.max(0, n - 1));
+  // 라우트가 바뀔 때마다 읽기
+  useEffect(() => {
+    setAuthUser(readAuth());
+  }, [location.pathname]);
 
-  const onInput = (key) => (e) =>
-    setForm((f) => ({ ...f, [key]: e.target.value }));
-
-  const fileRef = useRef(null);
-  const openFile = () => fileRef.current?.click();
-  const onPick = (e) => {
-    const f = e.target.files?.[0];
-    if (f) setForm((s0) => ({ ...s0, avatar: f }));
-  };
-
-  const HEIGHTS = Array.from({ length: 71 }, (_, i) => 140 + i);
-  const WEIGHTS = Array.from({ length: 101 }, (_, i) => 40 + i);
-
-  const finalize = async () => {
-    // 서버로 보낼 데이터 구조
-    const payload = {
-      email: form.email,
-      password: form.password,
-      name: form.nickname,
-      personalColor:
-        form.personalColor === "spring"
-          ? "봄웜"
-          : form.personalColor === "summer"
-          ? "여름쿨"
-          : form.personalColor === "autumn"
-          ? "가을웜"
-          : form.personalColor === "winter"
-          ? "겨울쿨"
-          : "선택안함",
-      style: form.styles[0] || "캐주얼",
-      height: Number(form.height) || null,
-      weight: Number(form.weight) || null,
-      gender: form.gender || "선택안함",
-      birthAt: "2000-01-01", // 임시 기본값
+  // storage / 커스텀 이벤트 / 페이지 복귀 때도 동기화
+  useEffect(() => {
+    const sync = () => setAuthUser(readAuth());
+    const onStorage = (e) => {
+      if (!e.key || e.key === "authUser") sync();
     };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("auth-changed", sync);
+    window.addEventListener("pageshow", sync);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("auth-changed", sync);
+      window.removeEventListener("pageshow", sync);
+    };
+  }, []);
 
-    try {
-      const res = await fetch("http://localhost:8083/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        alert(`회원가입 실패: ${err.message || res.status}`);
-        return;
-      }
-
-      const data = await res.json();
-      alert(`회원가입을 완료했습니다!\n${JSON.stringify(data, null, 2)}`);
-    } catch (e) {
-      console.error(e);
-      alert("서버 요청 중 오류가 발생했습니다.");
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (step < 4) {
-      next();
-      return;
-    }
-    finalize();
-  };
+  const isActive = (href) =>
+    activePath === href || activePath.startsWith(href + "/");
 
   return (
-    <AppLayout activePath="/signup" titleOnly>
-      <div className={s.wrap}>
-        <form className={s.card} onSubmit={handleSubmit}>
-          {/* 단계 0 - 이메일/비밀번호 */}
-          {step === 0 && (
-            <>
-              <h2 className={s.title}>이메일과 비밀번호를 입력해주세요</h2>
-              <div className={s.row}>
-                <input
-                  className={s.input}
-                  type="email"
-                  placeholder="이메일을 입력해주세요"
-                  value={form.email}
-                  onChange={onInput("email")}
-                  required
-                />
-                <input
-                  className={s.input}
-                  type="password"
-                  placeholder="비밀번호(6자 이상)"
-                  value={form.password}
-                  onChange={onInput("password")}
-                  required
-                />
-                <input
-                  className={s.input}
-                  type="password"
-                  placeholder="비밀번호를 다시 입력해주세요"
-                  value={form.confirm}
-                  onChange={onInput("confirm")}
-                  required
-                />
-                <input
-                  className={s.input}
-                  type="text"
-                  placeholder="닉네임을 입력해주세요"
-                  value={form.nickname}
-                  onChange={onInput("nickname")}
-                  required
-                />
+    <div className="min-h-screen bg-gray-50">
+      {!hideHeader && (
+        <header className="sticky top-0 z-50 border-b border-sky-300/60 bg-sky-200/80 backdrop-blur">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="flex h-20 items-center justify-between relative">
+              {/* 로고 + 네비 */}
+              <div className="flex items-center gap-6">
+                <a href="/" className="shrink-0" aria-label="Fitmoji 홈">
+                  <LogoMark />
+                </a>
+                <nav className="hidden md:block" aria-label="주요 메뉴">
+                  <ul className="flex items-center gap-6">
+                    {NAV_ITEMS.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          className={
+                            "text-sm tracking-tight text-sky-900/80 hover:text-sky-900 " +
+                            (isActive(item.href)
+                              ? "font-semibold underline underline-offset-4"
+                              : "")
+                          }
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
               </div>
-            </>
-          )}
 
-          {/* 단계 1 - 프로필 이미지 */}
-          {step === 1 && (
-            <>
-              <h2 className={s.title}>당신의 정보를 입력해주세요</h2>
-              <div className={s.badges} aria-hidden>
-                <span className={s.badge}>기본 정보</span>
-                <span className={s.badge}>스타일 취향</span>
-                <span className={s.badge}>퍼스널 컬러</span>
-              </div>
-              <div className={s.avatarWrap}>
-                <div className={s.avatar}>
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="미리보기" />
-                  ) : (
-                    <img src="/Fitmoji.png" alt="Fitmoji" width="64" height="64" />
-                  )}
-                </div>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={onPick}
-                />
-                <button
-                  className={s.uploader}
-                  type="button"
-                  onClick={openFile}
+              <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl font-extrabold text-sky-950">
+                Fitmoji
+              </h1>
+
+              {authUser ? (
+                <a
+                  href="/mypage"
+                  className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
                 >
-                  프로필 이미지 선택(선택)
-                </button>
-                <p className={s.help}>
-                  이미지는 선택 사항입니다. 나중에 마이페이지에서 변경할 수 있어요.
-                </p>
-              </div>
-            </>
-          )}
-
-          {/* 단계 2 - 퍼스널 컬러 */}
-          {step === 2 && (
-            <>
-              <div className={s.skipRow}>
-                <button type="button" className={s.skipLink} onClick={next}>
-                  건너뛰기
-                </button>
-              </div>
-
-              <h2 className={`${s.title} ${s.titleCenter}`}>
-                당신의 퍼스널 컬러는?
-              </h2>
-
-              <div className={s.pcList} role="group" aria-label="퍼스널 컬러">
-                {[
-                  {
-                    key: "spring",
-                    label: "봄웜",
-                    desc: "따뜻하고 밝은 느낌의 화사한 색상",
-                    cls: s.pcSpring,
-                  },
-                  {
-                    key: "summer",
-                    label: "여름쿨",
-                    desc: "부드럽고 차분한 파스텔 톤의 색상",
-                    cls: s.pcSummer,
-                  },
-                  {
-                    key: "autumn",
-                    label: "가을웜",
-                    desc: "짙고 딥한 따뜻한 톤 다운된 색상",
-                    cls: s.pcAutumn,
-                  },
-                  {
-                    key: "winter",
-                    label: "겨울쿨",
-                    desc: "선명하고 대비 강한 색상",
-                    cls: s.pcWinter,
-                  },
-                  {
-                    key: "none",
-                    label: "선택안함",
-                    desc: "퍼스널컬러에 대해 잘 모르는 경우",
-                    cls: s.pcNone,
-                  },
-                ].map((opt) => {
-                  const selected = form.personalColor === opt.key;
-                  return (
-                    <button
-                      type="button"
-                      key={opt.key}
-                      className={`${s.pcRow} ${
-                        selected ? s.pcSelected : ""
-                      }`}
-                      onClick={() =>
-                        setForm((f) => ({ ...f, personalColor: opt.key }))
-                      }
-                    >
-                      <span className={`${s.pcPill} ${opt.cls}`}>
-                        {opt.label}
-                      </span>
-                      <span className={s.pcDesc}>{opt.desc}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          )}
-
-          {/* 단계 3 - 선호 스타일 */}
-          {step === 3 && (
-            <>
-              <div className={s.skipRow}>
-                <button type="button" className={s.skipLink} onClick={next}>
-                  건너뛰기
-                </button>
-              </div>
-
-              <h2 className={`${s.title} ${s.titleCenter}`}>
-                당신의 선호 추구미는?
-              </h2>
-
-              <div className={s.prefList} role="group" aria-label="선호 추구미">
-                {[
-                  { label: "귀여운", desc: "발랄하고 사랑스러운 분위기" },
-                  { label: "힙한", desc: "세련되고 감각적인 분위기" },
-                  { label: "고급스러운", desc: "성숙하고 차분한 분위기" },
-                  { label: "꾸안꾸", desc: "자연스러운 센스있는 분위기" },
-                  { label: "청순한", desc: "맑고 깨끗한 분위기" },
-                ].map((opt) => {
-                  const selected = form.styles.includes(opt.label);
-                  return (
-                    <button
-                      type="button"
-                      key={opt.label}
-                      className={`${s.prefRow} ${
-                        selected ? s.prefSelected : ""
-                      }`}
-                      onClick={() =>
-                        setForm((f) => ({
-                          ...f,
-                          styles: selected
-                            ? f.styles.filter((x) => x !== opt.label)
-                            : [...f.styles, opt.label],
-                        }))
-                      }
-                    >
-                      <span className={s.prefPill}>{opt.label}</span>
-                      <span className={s.prefDesc}>{opt.desc}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          )}
-
-          {/* 단계 4 - 기본 정보 */}
-          {step === 4 && (
-            <>
-              <div className={s.skipRow}>
-                <button type="button" className={s.skipLink} onClick={finalize}>
-                  건너뛰기
-                </button>
-              </div>
-
-              <h2 className={`${s.title} ${s.titleCenter}`}>
-                당신의 기본 정보는?
-              </h2>
-
-              <div className={s.field2col}>
-                <div>
-                  <div className={s.formLabel}>키</div>
-                  <div className={s.selectWrap}>
-                    <select
-                      className={s.selectPill}
-                      value={form.height}
-                      onChange={onInput("height")}
-                    >
-                      <option value="">선택</option>
-                      {HEIGHTS.map((h) => (
-                        <option key={h} value={h}>
-                          {h} cm
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <div className={s.formLabel}>몸무게</div>
-                  <div className={s.selectWrap}>
-                    <select
-                      className={s.selectPill}
-                      value={form.weight}
-                      onChange={onInput("weight")}
-                    >
-                      <option value="">선택</option>
-                      {WEIGHTS.map((w) => (
-                        <option key={w} value={w}>
-                          {w} kg
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div className={s.formLabel} style={{ marginTop: 14 }}>
-                성별
-              </div>
-              <div className={s.choiceGrid3}>
-                {GENDERS.map((g) => (
-                  <button
-                    type="button"
-                    key={g}
-                    className={`${s.pillBtn} ${
-                      form.gender === g ? s.pillOn : ""
-                    }`}
-                    onClick={() => setForm((f) => ({ ...f, gender: g }))}
-                  >
-                    {g}
-                  </button>
-                ))}
-              </div>
-
-              <div className={s.formLabel} style={{ marginTop: 14 }}>
-                나잇대
-              </div>
-              <div className={s.choiceGrid3}>
-                {AGE_BANDS.map((a) => (
-                  <button
-                    type="button"
-                    key={a}
-                    className={`${s.pillBtn} ${
-                      form.ageBand === a ? s.pillOn : ""
-                    }`}
-                    onClick={() => setForm((f) => ({ ...f, ageBand: a }))}
-                  >
-                    {a}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* 단계 이동 버튼 */}
-          <div className={s.cardFooter}>
-            <div
-              className={s.stepper}
-              role="status"
-              aria-label={`전체 5단계 중 ${step + 1}단계`}
-            >
-              <div className={s.stepDots}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`${s.stepDot} ${
-                      i <= step ? s.stepDotOn : ""
-                    }`}
-                  />
-                ))}
-              </div>
-              <span>{step + 1}/5</span>
-            </div>
-
-            <div className={s.actions}>
-              {step > 0 && (
-                <button
-                  type="button"
-                  className={`${s.btn} ${s.btnGhost}`}
-                  onClick={prev}
-                >
-                  이전
-                </button>
-              )}
-              {step < 4 ? (
-                <button
-                  type="submit"
-                  className={s.btn}
-                  disabled={step === 0 && !okStep0}
-                >
-                  다음
-                </button>
+                  마이페이지
+                </a>
               ) : (
-                <button type="submit" className={s.btn} disabled={!okStep4}>
-                  완료
-                </button>
+                <a
+                  href="/login"
+                  className="hidden sm:inline-flex rounded-full bg-sky-300 px-4 py-2 text-sm font-semibold text-sky-950 shadow hover:bg-sky-400"
+                >
+                  로그인
+                </a>
               )}
             </div>
           </div>
-        </form>
-      </div>
-    </AppLayout>
+        </header>
+      )}
+
+      <main id="main" className="mx-auto max-w-6xl px-4 py-8">
+        {children}
+      </main>
+    </div>
   );
 }
