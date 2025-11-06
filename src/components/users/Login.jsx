@@ -15,23 +15,32 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password: pw }),
       });
+      console.log("전송 body:", { email, password: pw });
 
-      const raw = await res.text();
-      let data = {};
-      try { data = JSON.parse(raw || "{}"); } catch (e) { data = {}; }
-
-      if (res.ok && data?.token) {
-        localStorage.setItem("accessToken", data.token.access);
-        localStorage.setItem("refreshToken", data.token.refresh);
-        localStorage.setItem("authUser", JSON.stringify({ email }));
-        window.dispatchEvent(new Event("auth-changed"));
-        nav("/", { replace: true });
-      } else {
-        alert(data?.message || "로그인 실패. 이메일/비밀번호를 확인하세요.");
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.message || "로그인 실패");
       }
+
+      const access = data.token.access;
+      const refresh = data.token.refresh;
+      if (access == undefined) {
+        throw new Error("서버로부터 토큰을 받지 못했습니다.")
+      }
+      console.log("accessToken", { access }, "refreshToken", { refresh })
+
+      localStorage.setItem("accessToken", access);
+      localStorage.setItem("refreshToken", refresh);
+      localStorage.setItem("authUser", JSON.stringify({ email }));
+      window.dispatchEvent(new Event("auth-changed"));
+      
+      alert("로그인을 완료했습니다.");
+      nav("/", { replace: true });
     } catch (err) {
       console.error("로그인 처리 중 에러:", err);
-      alert("네트워크 오류로 로그인에 실패했습니다.");
+      alert("로그인 실패. 이메일과 비밀번호를 확인하세요.");
+    } finally {
+      setLoading(false);
     }
   };
 

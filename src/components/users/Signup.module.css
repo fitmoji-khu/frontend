@@ -272,3 +272,30 @@
 :global(body) {
   background: #f8fafc;
 }
+
+.birthInputWrap {
+  width: 100%;
+  max-width: 300px;
+}
+
+.birthInput {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 2px solid #e3e7ef;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #333;
+  font-family: inherit;
+  transition: 0.2s ease;
+}
+
+.birthInput::placeholder {
+  color: #aaa;
+}
+
+.birthInput:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.15);
+}

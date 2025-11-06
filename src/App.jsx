@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./components/Signup.jsx";
-import Login from "./components/Login.jsx";
-import MyPage from "./components/MyPage.jsx";
+import SignUp from "./components/users/Signup";
+import Login from "./components/users/Login";
+import MyPage from "./components/users/Mypage";
 import AppLayout from "./components/AppLayout";
 import Community from "./components/Community";
 import PostDetail from "./components/PostDetail";
 import PostCreate from "./components/PostCreate";
-import HomePage from "./components/MainPage/HomePage";
-import ClosetListPage from "./components/Closet/ClosetListPage";
-import AddClothPage from "./components/Closet/AddClothPage";
-import AnalysisResultPage from "./components/Closet/AnalysisResultPage";
-import CoordiEntryPage from "./components/Coordi/CoordiEntryPage";
-import CoordiResultPage from "./components/Coordi/CoordiResultPage";
-import { CoordiProvider } from "./components/Coordi/coordiStore.js";
+import HomePage from "./components/home/HomePage";
+import ClosetListPage from "./components/closet/ClosetListPage";
+import AddClothPage from "./components/closet/AddClothPage";
+import AnalysisResultPage from "./components/closet/AnalysisResultPage";
+import CoordiEntryPage from "./components/coordi/CoordiEntryPage";
+import CoordiResultPage from "./components/coordi/CoordiResultPage";
+import { CoordiProvider } from "./components/coordi/coordiStore.js";
 
 
 export default function App() {

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import AppLayout from "./AppLayout";
+import AppLayout from "../AppLayout";
 import s from "./MyPage.module.css";
 
 const readAuth = () => {
