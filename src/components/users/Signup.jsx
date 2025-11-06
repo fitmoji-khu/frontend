@@ -70,6 +70,7 @@ export default function Signup() {
       localStorage.setItem("authUser", JSON.stringify(authUser));
       window.dispatchEvent(new Event("auth-changed"));
       alert("회원가입이 완료되었습니다");
+
       nav("/login", { replace: true });
     } catch (e) {
       console.error("회원가입 중 오류:", e);

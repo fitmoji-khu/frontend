@@ -6,13 +6,9 @@ export default function Login() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return;
-    setLoading(true);
-
     try {
       const res = await fetch("http://localhost:8083/auth/login", {
         method: "POST",
@@ -20,7 +16,6 @@ export default function Login() {
         body: JSON.stringify({ email, password: pw }),
       });
       console.log("전송 body:", { email, password: pw });
-
 
       const data = await res.json();
       if (!res.ok) {
@@ -51,52 +46,38 @@ export default function Login() {
 
   return (
     <>
-      <div className={s.wrap}>
-        <form className={s.card} onSubmit={onSubmit}>
-          <label className={s.label} htmlFor="email">
-            이메일
-          </label>
-          <input
-            id="email"
-            className={s.input}
-            type="email"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <div className={s.underline} />
+      <form onSubmit={onSubmit} className={s.card} autoComplete="on">
+        <label className={s.label}>이메일</label>
+        <input
+          type="email"
+          className={s.input}
+          placeholder="이메일을 입력하세요"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
 
-          <label className={s.label} htmlFor="pw">
-            비밀번호
-          </label>
-          <input
-            id="pw"
-            className={s.input}
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            value={pw}
-            onChange={(e) => setPw(e.target.value)}
-            required
-          />
-          <div className={s.underline} />
+        <label className={s.label} style={{ marginTop: 16 }}>비밀번호</label>
+        <input
+          type="password"
+          className={s.input}
+          placeholder="비밀번호를 입력하세요"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          autoComplete="current-password"
+          required
+        />
 
-          <button type="submit" className={s.primaryBtn} disabled={loading}>
-            {loading ? "처리 중..." : "완료"}
-          </button>
+        <div style={{ height: 16 }} />
+        <button type="submit" className={`${s.btn} ${s.btnPrimary}`}>완료</button>
 
-          <div className={s.divider} />
-
-          <p className={s.help}>회원가입하고 서비스를 이용하세요</p>
-          <button
-            type="button"
-            className={s.secondaryBtn}
-            onClick={() => nav("/signup")}
-          >
-            회원가입
-          </button>
-        </form>
-      </div>
+        <hr className={s.hr} />
+        <div className={s.help}>회원가입하고 서비스를 이용하세요</div>
+        <button type="button" className={s.btn} onClick={() => nav("/signup")}>
+          회원가입
+        </button>
+      </form>
     </>
   );
 }
