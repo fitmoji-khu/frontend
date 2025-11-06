@@ -1,0 +1,301 @@
+:root { --header-h: 72px; }
+
+.wrap {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - var(--header-h));
+  padding: 24px 0;
+  gap: 16px;
+}
+
+.card {
+  width: min(520px, calc(100vw - 40px));
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.08);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: #0f172a;
+}
+
+.row { display: grid; gap: 12px; }
+
+.input,
+.select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0 12px;
+  outline: none;
+}
+.input:focus,
+.select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56,189,248,.25);
+}
+
+.help { font-size: 12px; color: #475569; }
+
+.btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  border: none;
+  background: #7dd3fc;
+  color: #082f49;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btnGhost { background: transparent; border: 1px solid #bae6fd; color: #0c4a6e; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 12px;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.chip:hover { border-color: #38bdf8; }
+.isOn {
+  background: #bae6fd;
+  border-color: #7dd3fc;
+  color: #082f49;
+  font-weight: 700;
+}
+
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+}
+
+.avatarWrap {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  padding: 24px 8px;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.uploader {
+  font-size: 13px;
+  color: #0c4a6e;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cardFooter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.stepper {
+  grid-column: 2;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0c4a6e;
+  font-size: 13px;
+}
+.stepDots { display: flex; gap: 6px; }
+.stepDot { width: 8px; height: 8px; border-radius: 9999px; background: #dbeafe; }
+.stepDotOn { background: #38bdf8; }
+
+.actions {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+}
+
+.skipRow{ display:flex; justify-content:flex-end; margin-top:-8px; margin-bottom:8px; }
+.skipLink{ background:none; border:0; padding:0; cursor:pointer; color:#64748b; text-decoration:underline; font-size:14px; }
+.titleCenter{ text-align:center; }
+
+.pcList{ display:grid; gap:14px; margin-top:8px; }
+.pcRow{
+  display:grid;
+  grid-template-columns: 140px 1fr;
+  gap:16px;
+  align-items:center;
+  padding:6px 8px;
+  border-radius:12px;
+  background:transparent;
+  border:0;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+}
+.pcRow:focus-visible{ outline:2px solid #7dd3fc; }
+.pcSelected{ outline:2px solid #7dd3fc; background:#f0f9ff; }
+.pcPill{
+  justify-self:start;
+  min-width:120px;
+  padding:10px 18px;
+  border-radius:9999px;
+  font-weight:700;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+.pcSpring{ background:#fde7ef; border-color:#f9cfe1; color:#7a2945; }
+.pcSummer{ background:#ccefff; border-color:#99e0ff; color:#0b5c78; }
+.pcAutumn{ background:#ffd9b0; border-color:#ffc288; color:#6a3b08; }
+.pcWinter{ background:#e2d8ff; border-color:#c6b6ff; color:#3b2d7a; }
+.pcNone  { background:#eceff1; border-color:#cfd8dc; color:#374151; }
+.pcDesc{ font-size:14px; color:#334155; }
+
+.prefList{ display:grid; gap:14px; margin-top:8px; }
+.prefRow{
+  display:grid;
+  grid-template-columns: 140px 1fr;
+  gap:16px;
+  align-items:center;
+  padding:6px 8px;
+  border-radius:12px;
+  background:transparent;
+  border:0;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+}
+.prefRow:focus-visible{ outline:2px solid #7dd3fc; }
+.prefSelected{ outline:2px solid #7dd3fc; background:#f8fafc; }
+
+.prefPill{
+  justify-self:start;
+  min-width:120px;
+  padding:10px 18px;
+  border-radius:9999px;
+  font-weight:700;
+  background:#f1f5f9;
+  border:1px solid #e2e8f0;
+  color:#1f2937;
+  box-shadow:0 2px 0 rgba(0,0,0,.06);
+}
+.prefDesc{ font-size:14px; color:#334155; }
+
+.formLabel { font-weight: 800; color:#0f172a; margin: 8px 0 6px; }
+
+.field2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.selectWrap { position: relative; }
+.selectPill {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 0 36px 0 12px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.selectWrap::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #94a3b8;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.pillBtn {
+  min-width: 120px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  font-weight: 700;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #1f2937;
+  box-shadow: 0 2px 0 rgba(0,0,0,.06);
+  cursor: pointer;
+}
+.pillOn {
+  background: #bae6fd;
+  border-color: #7dd3fc;
+  color: #082f49;
+}
+
+.choiceGrid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+
+:global(html, body, #root) {
+  height: 100%;
+  margin: 0;
+}
+
+:global(#root) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+:global(body) {
+  background: #f8fafc;
+}
+
+.birthInputWrap {
+  width: 100%;
+  max-width: 300px;
+}
+
+.birthInput {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 2px solid #e3e7ef;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #333;
+  font-family: inherit;
+  transition: 0.2s ease;
+}
+
+.birthInput::placeholder {
+  color: #aaa;
+}
+
+.birthInput:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.15);
+}
