@@ -67,4 +67,126 @@
   }
   
   
+/* CoordiResult */
+/* --- 페이지 레이아웃 --- */
+.pageContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; /*좌우 마진 자동, 중앙정렬*/
+  padding: 20px;
+  font-family: Arial, sans-serif; /*글꼴... 하나로 통일.*/
+}
+
+.cardSection {
+  display: flex; /*가로로 나열*/
+  justify-content: space-around; /*여백 균등하게 분배*/
+  flex-wrap: wrap; /*모바일 대응*/
+  gap: 20px; /*카드와 카드 사이*/
+  width: 100%;
+}
+
+.buttonContainer {
+  text-align: right; /*완료 버튼 오른쪽*/
+  margin-top: 30px;
+}
+
+.completeButton {
+  padding: 10px 25px; /*버튼 내부 여백*/
+  font-size: 16px;
+  background-color: #007bff; /*완료 버튼 색상*/
+  color: white; /*흰색 글자*/
+  border: none;
+  border-radius: 5px; /*모서리 둥글게 */
+  cursor: pointer;
+}
+
+.completeButton:hover {
+  background-color: #0056b3; /*마우스 올린 색상*/
+}
+
+/* --- 아이템 카드 --- */
+.cardWrapper {
+  flex-basis: 220px; /*기본너비*/
+  flex-grow: 1; /*공간 남으면 1의 비율로*/
+  border: 1px solid #eee; 
+  border-radius: 8px;
+  padding: 16px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.cardTitle {
+  text-align: center;
+  margin-top: 0;
+  color: #333;
+}
+
+.imageBox {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 1대1 비율 고정*/
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden; /*이미지가 넘어가면 자름*/
+  margin-bottom: 12px;
+}
+
+.imageBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /*1대1 상자 채우기*/
+}
+
+/* 상세정보 버튼 */
+.detailsButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.detailsButton:hover {
+  text-decoration: underline; /*마우스 올리면 밑줄*/
+}
+
+/* 애니메이션 래퍼 */
+.detailsWrapper {
+  overflow: hidden; /*내부 콘텐츠가 나와도 숨김*/
+  transition: max-height 0.3s ease-out;
+  max-height: 0;
+}
+
+.detailsWrapper[data-expanded="true"] {
+  max-height: 200px; /* 상세정보 내용이 들어갈 높이 */
+}
+
+/* 상세정보 내용 */
+.detailsContent {
+  border-top: 1px solid #ddd;
+  padding-top: 12px;
+  margin-top: 8px;
+}
+
+.detailsContent p {
+  margin: 4px 0;
+  font-size: 14px;
+  white-space: nowrap; /*제품명 줄바꿈 금지*/
+  overflow: hidden; /*화면 밖으로 나간 글자 숨김*/
+  text-overflow: ellipsis; /*나간 글자 ... 처리*/
+}
+
+.detailsContent .price {
+  font-weight: bold;
+  color: #333;
+}
+
+.detailsContent a {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+.detailsContent a:hover {
+  text-decoration: underline;
+}
+
   

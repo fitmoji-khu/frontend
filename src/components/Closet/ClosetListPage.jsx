@@ -152,7 +152,7 @@ export default function ClosetListPage({ selectionMode = false }) {
       {selectionMode && (
         <button 
           className={styles.nextButton} // 'selectionCompleteButton' -> 'nextButton' 스타일로 변경
-          onClick={handleSelectionComplete}
+          onClick={() => navigate("/coordi/result")}
           disabled={Object.keys(selectedClothes).length === 0} // 선택된 옷이 없으면 비활성화
         >
           다음
